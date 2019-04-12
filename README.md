@@ -1,4 +1,4 @@
-# Flask Skeleton
+# Cookiecutter Flask-SignalBus template
 
 Dockerized Flask-SignalBus project for [Cookiecutter](https://github.com/audreyr/cookiecutter).
 
@@ -13,5 +13,5 @@ $ pip install cookiecutter
 Generate the boilerplate:
 
 ```sh
-$ cookiecutter https://github.com/realpython/cookiecutter-flask-skeleton.git
+$ cookiecutter https://github.com/epandurski/cookiecutter-flask-signalbus.git
 ```
