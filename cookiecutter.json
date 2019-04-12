@@ -1,0 +1,9 @@
+{
+  "app_name": "Flask Skeleton",
+  "app_slug": "{{ cookiecutter.app_name.lower()|replace(' ', '_')|replace('-', '_') }}",
+  "description": "{{ cookiecutter.app_name }}",
+  "author_name": "Evgeni Pandurski",
+  "author_email": "epandurski@gmail.com",
+  "license": "MIT",
+  "version": "0.1.0"
+}
