@@ -3,7 +3,11 @@ WORKDIR /usr/src/app
 
 ARG FLASK_APP={{cookiecutter.app_slug}}
 
+ENV FLASK_APP=$FLASK_APP
+ENV POETRY_VERSION="0.12.12"
+
 RUN apk add --no-cache \
+    curl \
     gcc \
     musl-dev \
     python3-dev \
@@ -11,14 +15,9 @@ RUN apk add --no-cache \
     git \
     supervisor \
   && pip install --upgrade pip==19.0.3 \
-  && pip install gunicorn==19.9.0 json-logging-py==0.2 pipx==0.13.0.1 \
-  && PIPX_BIN_DIR=/usr/local/bin pipx install poetry==0.12.12
-
-ENV GUNICORN_LOGLEVEL=warning
-ENV GUNICORN_WORKER_CLASS=sync
-ENV GUNICORN_WORKERS=2
-ENV GUNICORN_THREADS=1
-ENV FLASK_APP=$FLASK_APP
+  && pip install gunicorn==19.9.0 json-logging-py==0.2 \
+  && curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python \
+  && ln -s "$HOME/.poetry/bin/poetry" "/usr/local/bin"
 
 COPY docker/ pyproject.toml poetry.lock wsgi.py ./
 COPY src/ src/
@@ -27,6 +26,11 @@ RUN poetry config settings.virtualenvs.create false \
 
 # If installed, configure "pudb" debugger not to show a welcome screen.
 RUN ! which pudb3 || sed 's/seen_welcome = a/seen_welcome = e034/g' ~/.config/pudb/pudb.cfg -i
+
+ENV GUNICORN_LOGLEVEL=warning
+ENV GUNICORN_WORKER_CLASS=sync
+ENV GUNICORN_WORKERS=2
+ENV GUNICORN_THREADS=1
 
 ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
 CMD ["serve"]

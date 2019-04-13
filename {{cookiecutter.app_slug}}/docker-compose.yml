@@ -10,3 +10,18 @@ services:
       - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
     ports:
       - $POSTGRES_LOCAL_PORT:5432
+
+  {{cookiecutter.app_slug}}:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - './src:/usr/src/app/src'
+    ports:
+      - 8001:8001
+    environment:
+      - PORT=4488
+      - SQLALCHEMY_DATABASE_URI=postgresql://hydra_login2f_service:hydra_login2f_service@pg/${POSTGRES_DB}
+    command: develop
+    depends_on:
+      - pg
