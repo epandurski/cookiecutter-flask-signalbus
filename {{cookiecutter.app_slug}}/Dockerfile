@@ -19,13 +19,18 @@ RUN apk add --no-cache \
   && curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python \
   && ln -s "$HOME/.poetry/bin/poetry" "/usr/local/bin"
 
-COPY docker/ pyproject.toml poetry.lock wsgi.py ./
-COPY src/ src/
+# Install dependencies.
+COPY pyproject.toml poetry.lock ./
 RUN poetry config settings.virtualenvs.create false \
   && poetry install --no-dev --no-interaction
 
 # If installed, configure "pudb" debugger not to show a welcome screen.
 RUN ! which pudb3 || sed 's/seen_welcome = a/seen_welcome = e034/g' ~/.config/pudb/pudb.cfg -i
+
+# Copy app files.
+COPY docker/ wsgi.py ./
+COPY $FLASK_APP/ $FLASK_APP/
+RUN python -m compileall ./$FLASK_APP/
 
 ENV GUNICORN_LOGLEVEL=warning
 ENV GUNICORN_WORKER_CLASS=sync
