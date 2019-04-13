@@ -20,7 +20,6 @@ ENV GUNICORN_WORKERS=2
 ENV GUNICORN_THREADS=1
 ENV FLASK_APP=$FLASK_APP
 
-# Copy the app, install the required packages.
 COPY docker/ pyproject.toml poetry.lock wsgi.py ./
 COPY src/ src/
 RUN poetry config settings.virtualenvs.create false \
