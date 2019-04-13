@@ -23,11 +23,12 @@ class Configuration(metaclass=MetaFlaskEnv):
 
 def create_app(config_dict={}):
     from flask import Flask
-    from .models import db, migrate
+    from .extensions import db, migrate, broker
 
     app = Flask(__name__)
     app.config.from_object(Configuration)
     app.config.from_mapping(config_dict)
     db.init_app(app)
     migrate.init_app(app, db)
+    broker.init_app(app)
     return app

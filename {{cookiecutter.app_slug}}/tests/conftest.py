@@ -3,9 +3,9 @@ import sqlalchemy
 import flask_migrate
 from unittest import mock
 from {{cookiecutter.app_slug}} import create_app
-from {{cookiecutter.app_slug}}.models import db
+from {{cookiecutter.app_slug}}.extensions import db
 
-DB_SESSION = '{{cookiecutter.app_slug}}.models.db.session'
+DB_SESSION = '{{cookiecutter.app_slug}}.extensions.db.session'
 
 
 def _restart_savepoint(session, transaction):
