@@ -1,10 +1,10 @@
 {
-  "app_name": "Flask Skeleton",
+  "app_name": "Example App",
   "app_slug": "{{ cookiecutter.app_name.lower()|replace(' ', '_')|replace('-', '_') }}",
-  "description": "{{ cookiecutter.app_name }}",
+  "description": "A Flask-SignalBus application",
   "author_name": "Evgeni Pandurski",
   "author_email": "epandurski@gmail.com",
-  "license": "MIT",
+  "license": ["", "Unlicense", "MIT", "LGPL-3.0", "GPL-3.0"],
   "version": "0.1.0",
   "_copy_without_render": [
     "*.html"
