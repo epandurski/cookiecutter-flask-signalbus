@@ -5,7 +5,7 @@ if __name__ == '__main__':
     import logging
     import logging.config
 
-    logging.config.fileConfig('/usr/src/app/docker_flask/logging.conf')
+    logging.config.fileConfig('/usr/src/app/logging.conf')
     logger = logging.getLogger(__name__)
 
     from wsgi import app
