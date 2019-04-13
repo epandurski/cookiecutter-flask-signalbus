@@ -1,6 +1,7 @@
 version: '3.6'
 
 services:
+  env_file: .env
 
   pg:
     image: postgres:10.5
@@ -18,8 +19,7 @@ services:
     volumes:
       - './{{cookiecutter.app_slug}}:/usr/src/app/{{cookiecutter.app_slug}}'
     ports:
-      - 8001:8001
-    env_file: .env
+      - $PORT:$PORT
     command: develop
     depends_on:
       - pg
