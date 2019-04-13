@@ -19,9 +19,7 @@ services:
       - './{{cookiecutter.app_slug}}:/usr/src/app/{{cookiecutter.app_slug}}'
     ports:
       - 8001:8001
-    environment:
-      - PORT=4488
-      - SQLALCHEMY_DATABASE_URI=postgresql://hydra_login2f_service:hydra_login2f_service@pg/${POSTGRES_DB}
+    env_file: .env
     command: develop
     depends_on:
       - pg
