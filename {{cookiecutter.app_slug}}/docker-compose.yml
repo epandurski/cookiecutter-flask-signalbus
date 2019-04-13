@@ -1,7 +1,6 @@
 version: '3.6'
 
 services:
-  env_file: .env
 
   pg:
     image: postgres:10.5
@@ -20,6 +19,7 @@ services:
       - './{{cookiecutter.app_slug}}:/usr/src/app/{{cookiecutter.app_slug}}'
     ports:
       - $PORT:$PORT
+    env_file: .env
     environment:
       - SQLALCHEMY_DATABASE_URI=postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@pg:5432/${POSTGRES_DB}
     command: develop
