@@ -17,6 +17,8 @@ class Configuration(metaclass=MetaFlaskEnv):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ECHO = False
     RABBITMQ_EVENT_EXCHANGE = ''
+    DRAMATIQ_BROKER_CLASS = 'RabbitmqBroker'
+    DRAMATIQ_BROKER_URL = 'amqp://guest:guest@localhost:5672'
     # DRAMATIQ_BROKER_CLASS = 'StubBroker'
 
 
