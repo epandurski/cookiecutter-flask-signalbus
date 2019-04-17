@@ -2,10 +2,10 @@
   "app_name": "Example App",
   "app_slug": "{{ cookiecutter.app_name.lower()|replace(' ', '_')|replace('-', '_') }}",
   "description": "A Flask-SignalBus application",
+  "version": "0.1.0",
   "author_name": "Evgeni Pandurski",
   "author_email": "epandurski@gmail.com",
   "license": ["", "Unlicense", "MIT", "LGPL-3.0", "GPL-3.0"],
-  "version": "0.1.0",
   "_copy_without_render": [
     "*.html"
   ]
