@@ -1,11 +1,10 @@
 #!/bin/sh
 set -e
 
-logging_conf='/usr/src/app/logging.conf'
-gunicorn_conf='/usr/src/app/gunicorn.conf'
+logging_conf="$APP_ROOT_DIR/logging.conf"
+gunicorn_conf="$APP_ROOT_DIR/gunicorn.conf"
 
 export PYTHONDONTWRITEBYTECODE=1
-export PYTHONPATH=/usr/src/app
 case $1 in
     develop)
         shift;
@@ -33,7 +32,7 @@ case $1 in
         exec flask signalbus "$@"
         ;;
     supervisord)
-        exec supervisord -c /usr/src/app/supervisord.conf
+        exec supervisord -c "$APP_ROOT_DIR/supervisord.conf"
         ;;
     *)
         exec "$@"
