@@ -38,6 +38,7 @@ RUN ! which pudb3 || sed 's/seen_welcome = a/seen_welcome = e034/g' ~/.config/pu
 COPY docker/ wsgi.py ./
 COPY $FLASK_APP/ $FLASK_APP/
 RUN python -m compileall .
+COPY migrations/ migrations/
 
 ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
 CMD ["serve"]
