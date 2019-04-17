@@ -8,7 +8,6 @@ logger = logging.getLogger(__name__)
 
 
 class Configuration(metaclass=MetaFlaskEnv):
-    PORT = 8000
     SECRET_KEY = 'dummy-secret'
     SQLALCHEMY_DATABASE_URI = ''
     SQLALCHEMY_POOL_SIZE = None
