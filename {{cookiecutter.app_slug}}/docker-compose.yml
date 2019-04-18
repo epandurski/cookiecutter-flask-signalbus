@@ -23,6 +23,7 @@ services:
     env_file: .env
     environment:
       - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONBREAKPOINT=web_pdb.set_trace
       - SQLALCHEMY_DATABASE_URI=postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@pg:5432/${POSTGRES_DB}
       - DRAMATIQ_BROKER_URL=$LOCALHOST_DRAMATIQ_BROKER_URL
     command: develop
@@ -40,6 +41,7 @@ services:
     env_file: .env
     environment:
       - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONBREAKPOINT=web_pdb.set_trace
       - SQLALCHEMY_DATABASE_URI=postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@pg:5432/${POSTGRES_DB}
       - DRAMATIQ_BROKER_URL=$LOCALHOST_DRAMATIQ_BROKER_URL
       - DRAMATIQ_PROCESSES=1
