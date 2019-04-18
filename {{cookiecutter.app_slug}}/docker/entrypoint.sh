@@ -16,16 +16,8 @@ fi
 
 case $1 in
     develop)
-        # autoreload on
         shift;
-        export FLASK_ENV=development
         exec flask run --host=0.0.0.0 --port $PORT "$@"
-        ;;
-    debug)
-        # autoreload off
-        shift;
-        export FLASK_ENV=development
-        exec python -u wsgi.py "$@"
         ;;
     serve)
         exec gunicorn --config "$gunicorn_conf" --log-config "$logging_conf" -b :$PORT wsgi:app
@@ -44,6 +36,10 @@ case $1 in
     tasks)
         shift;
         exec dramatiq --processes ${DRAMATIQ_PROCESSES-4} --threads ${DRAMATIQ_THREADS-8} "$@"
+        ;;
+    tasks-gevent)
+        shift;
+        exec dramatiq-gevent --processes ${DRAMATIQ_PROCESSES-4} --threads ${DRAMATIQ_GREENLETS-8} "$@"
         ;;
     *)
         exec "$@"

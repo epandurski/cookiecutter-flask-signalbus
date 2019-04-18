@@ -46,7 +46,7 @@ services:
       - DRAMATIQ_BROKER_URL=$LOCALHOST_DRAMATIQ_BROKER_URL
       - DRAMATIQ_PROCESSES=1
       - DRAMATIQ_THREADS=1
+      - DRAMATIQ_GREENLETS=1
     command: tasks --watch '/usr/src/app/{{cookiecutter.app_slug}}' tasks:broker
     depends_on:
       - pg
-
