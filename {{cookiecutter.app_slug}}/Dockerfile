@@ -33,9 +33,6 @@ COPY pyproject.toml poetry.lock ./
 RUN poetry config settings.virtualenvs.create false \
   && poetry install --no-dev --no-interaction
 
-# If installed, configure "pudb" debugger not to show a welcome screen.
-RUN ! which pudb3 || sed 's/seen_welcome = a/seen_welcome = e034/g' ~/.config/pudb/pudb.cfg -i
-
 COPY docker/ wsgi.py tasks.py ./
 COPY $FLASK_APP/ $FLASK_APP/
 RUN python -m compileall .
