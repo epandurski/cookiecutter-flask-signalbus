@@ -11,7 +11,7 @@ services:
     ports:
       - $POSTGRES_LOCAL_PORT:5432
 
-  {{cookiecutter.app_slug}}:
+  web:
     build:
       context: .
       dockerfile: Dockerfile
@@ -19,10 +19,32 @@ services:
       - './{{cookiecutter.app_slug}}:/usr/src/app/{{cookiecutter.app_slug}}'
     ports:
       - $PORT:$PORT
+      - 1$PORT:5555
     env_file: .env
     environment:
       - PYTHONDONTWRITEBYTECODE=1
       - SQLALCHEMY_DATABASE_URI=postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@pg:5432/${POSTGRES_DB}
+      - DRAMATIQ_BROKER_URL=$LOCALHOST_DRAMATIQ_BROKER_URL
     command: develop
     depends_on:
       - pg
+
+  tasks:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - './{{cookiecutter.app_slug}}:/usr/src/app/{{cookiecutter.app_slug}}'
+    ports:
+      - 2$PORT:5555
+    env_file: .env
+    environment:
+      - PYTHONDONTWRITEBYTECODE=1
+      - SQLALCHEMY_DATABASE_URI=postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@pg:5432/${POSTGRES_DB}
+      - DRAMATIQ_BROKER_URL=$LOCALHOST_DRAMATIQ_BROKER_URL
+      - DRAMATIQ_PROCESSES=1
+      - DRAMATIQ_THREADS=1
+    command: tasks --watch '/usr/src/app/{{cookiecutter.app_slug}}' tasks:broker
+    depends_on:
+      - pg
+
