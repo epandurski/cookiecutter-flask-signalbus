@@ -18,6 +18,7 @@ mysql-connector = "^2.2"
 dramatiq = {version = "^1.5",extras = ["rabbitmq", "watch"]}
 
 [tool.poetry.dev-dependencies]
+python-dotenv = ">=0.10.1"
 pytest = "^4.0"
 pytest-pudb = "^0.7.0"
 pytest-mock = "^1.10"
