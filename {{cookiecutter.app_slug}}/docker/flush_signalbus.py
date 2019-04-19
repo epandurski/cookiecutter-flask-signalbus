@@ -17,7 +17,7 @@ if __name__ == '__main__':
             try:
                 signal_count = app.extensions['signalbus'].flush(**kwargs)
             except Exception:
-                logger.exception('Caught error while sending penging signals.')
+                logger.exception('Caught error while sending pending signals.')
                 sys.exit(1)
             if signal_count > 0:
                 logger.warning('%i pending signals have been sent.', signal_count)
