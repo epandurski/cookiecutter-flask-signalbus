@@ -33,10 +33,13 @@ COPY pyproject.toml poetry.lock ./
 RUN poetry config settings.virtualenvs.create false \
   && poetry install --no-dev --no-interaction
 
-COPY docker/ wsgi.py tasks.py ./
+COPY docker/ wsgi.py tasks.py flush_signalbus.py ./
 COPY $FLASK_APP/ $FLASK_APP/
 RUN python -m compileall .
 COPY migrations/ migrations/
+
+# Ensure no .env file is present.
+RUN rm -f .env
 
 ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
 CMD ["serve"]
