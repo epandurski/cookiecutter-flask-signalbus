@@ -3,6 +3,7 @@ set -e
 
 logging_conf="$APP_ROOT_DIR/logging.conf"
 gunicorn_conf="$APP_ROOT_DIR/gunicorn.conf"
+supervisord_conf="$APP_ROOT_DIR/supervisord.conf"
 
 # We should allow the container to work with RabbitMQ server installed
 # on the host. To do this, we find the IP address of the host, and
@@ -31,7 +32,7 @@ case $1 in
         exec flask signalbus "$@"
         ;;
     supervisord)
-        exec supervisord -c "$APP_ROOT_DIR/supervisord.conf"
+        exec supervisord -c "$supervisord_conf"
         ;;
     tasks)
         shift;
