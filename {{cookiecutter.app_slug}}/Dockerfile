@@ -26,7 +26,7 @@ RUN apk add --no-cache \
     git \
     supervisor \
   && pip install --upgrade pip==$USE_PIP_VERSION \
-  && pip install gunicorn==$USE_GUNICORN_VERSION json-logging-py==0.2 \
+  && pip install gunicorn==$USE_GUNICORN_VERSION \
   && curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python \
   && ln -s "$HOME/.poetry/bin/poetry" "/usr/local/bin"
 
