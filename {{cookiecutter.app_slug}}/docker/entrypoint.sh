@@ -1,9 +1,6 @@
 #!/bin/sh
 set -e
 
-gunicorn_conf="$APP_ROOT_DIR/gunicorn.conf"
-supervisord_conf="$APP_ROOT_DIR/supervisord.conf"
-
 # We should allow the container to work with RabbitMQ server installed
 # on the host. To do this, we find the IP address of the host, and
 # then in "$DRAMATIQ_BROKER_URL" we substitute each occurrence of the
@@ -13,7 +10,6 @@ if [[ -n "$DRAMATIQ_BROKER_URL" ]]; then
     export DRAMATIQ_BROKER_URL=${DRAMATIQ_BROKER_URL//host.docker.internal/$host_ip};
 fi
 
-
 case $1 in
     develop)
         shift;
@@ -21,7 +17,10 @@ case $1 in
         exec flask run --host=0.0.0.0 --port $PORT "$@"
         ;;
     serve)
-        exec gunicorn --config "$gunicorn_conf" --log-config "$APP_LOGGING_CONFIG_FILE" -b :$PORT wsgi:app
+        exec gunicorn \
+             --config "$APP_ROOT_DIR/gunicorn.conf" \
+             --log-config "$APP_LOGGING_CONFIG_FILE" \
+             -b :$PORT wsgi:app
         ;;
     db)
         shift;
@@ -32,7 +31,7 @@ case $1 in
         exec flask signalbus "$@"
         ;;
     supervisord)
-        exec supervisord -c "$supervisord_conf"
+        exec supervisord -c "$APP_ROOT_DIR/supervisord.conf"
         ;;
     tasks)
         shift;
