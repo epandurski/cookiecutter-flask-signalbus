@@ -1,7 +1,6 @@
 #!/bin/sh
 set -e
 
-logging_conf="$APP_ROOT_DIR/logging.conf"
 gunicorn_conf="$APP_ROOT_DIR/gunicorn.conf"
 supervisord_conf="$APP_ROOT_DIR/supervisord.conf"
 
@@ -22,7 +21,7 @@ case $1 in
         exec flask run --host=0.0.0.0 --port $PORT "$@"
         ;;
     serve)
-        exec gunicorn --config "$gunicorn_conf" --log-config "$logging_conf" -b :$PORT wsgi:app
+        exec gunicorn --config "$gunicorn_conf" --log-config "$APP_LOGGING_CONFIG_FILE" -b :$PORT wsgi:app
         ;;
     db)
         shift;
