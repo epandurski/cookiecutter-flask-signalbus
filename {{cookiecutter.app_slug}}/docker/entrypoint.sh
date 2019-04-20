@@ -18,6 +18,7 @@ fi
 case $1 in
     develop)
         shift;
+        $APP_ROOT_DIR/flush_signalbus.py 0
         exec flask run --host=0.0.0.0 --port $PORT "$@"
         ;;
     serve)
