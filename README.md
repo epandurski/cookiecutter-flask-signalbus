@@ -15,3 +15,10 @@ Generate the boilerplate:
 ```sh
 $ cookiecutter https://github.com/epandurski/cookiecutter-flask-signalbus.git
 ```
+
+Then:
+
+```sh
+$ poetry lock
+$ flask db init
+```

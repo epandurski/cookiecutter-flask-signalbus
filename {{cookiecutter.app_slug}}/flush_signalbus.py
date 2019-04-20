@@ -2,7 +2,6 @@
 
 import sys
 import logging
-import logging.config
 import argparse
 from contextlib import suppress
 
@@ -28,10 +27,6 @@ def flush_signalbus(**kwargs):
 
 if __name__ == '__main__':
     args = parser.parse_args()
-
-    # Configure logging if a "logging.conf" file is present.
-    with suppress(FileNotFoundError), open('logging.conf') as f:
-        logging.config.fileConfig(f)
 
     # Set system environment variables if an ".env" file is present.
     with suppress(ImportError):

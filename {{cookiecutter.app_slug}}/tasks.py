@@ -1,14 +1,7 @@
 #!/usr/bin/env python
 
-import logging.config
-from contextlib import suppress
-
-# Configure logging if a "logging.conf" file is present.
-with suppress(FileNotFoundError), open('logging.conf') as f:
-    logging.config.fileConfig(f)
-
-from {{cookiecutter.app_slug}} import create_app  # noqa
-from {{cookiecutter.app_slug}}.extensions import broker  # noqa
+from {{cookiecutter.app_slug}} import create_app
+from {{cookiecutter.app_slug}}.extensions import broker
 import {{cookiecutter.app_slug}}.actors  # noqa
 
 app = create_app()

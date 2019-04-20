@@ -4,6 +4,7 @@ WORKDIR /usr/src/app
 ARG FLASK_APP={{cookiecutter.app_slug}}
 
 ENV APP_ROOT_DIR=/usr/src/app
+ENV APP_LOGGING_CONFIG_FILE=/usr/src/app/logging.conf
 ENV PYTHONPATH=/usr/src/app
 ENV FLASK_APP=$FLASK_APP
 

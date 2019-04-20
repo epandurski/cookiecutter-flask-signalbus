@@ -1,10 +1,15 @@
 __version__ = '0.1.0'
 
+import os
 import logging
+import logging.config
 from flask_env import MetaFlaskEnv
 
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger(__name__)
+logging_conffile = os.environ.get('APP_LOGGING_CONFIG_FILE')
+if logging_conffile:
+    logging.config.fileConfig(logging_conffile)
+else:
+    logging.basicConfig(level=logging.DEBUG)
 
 
 class Configuration(metaclass=MetaFlaskEnv):
