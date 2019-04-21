@@ -9,7 +9,7 @@ logging_conffile = os.environ.get('APP_LOGGING_CONFIG_FILE')
 if logging_conffile:
     logging.config.fileConfig(logging_conffile)
 else:
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.WARNING)
 
 
 class Configuration(metaclass=MetaFlaskEnv):
