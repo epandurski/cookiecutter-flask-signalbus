@@ -29,7 +29,7 @@ COPY pyproject.toml poetry.lock ./
 RUN poetry config settings.virtualenvs.create false \
   && poetry install --no-dev --no-interaction
 
-COPY docker/ wsgi.py tasks.py flush_signalbus.py ./
+COPY docker/ wsgi.py tasks.py ./
 COPY $FLASK_APP/ $FLASK_APP/
 RUN python -m compileall .
 COPY migrations/ migrations/
