@@ -25,7 +25,6 @@ services:
       - PYTHONDONTWRITEBYTECODE=1
       - PYTHONBREAKPOINT=web_pdb.set_trace
       - SQLALCHEMY_DATABASE_URI=postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@pg:5432/${POSTGRES_DB}
-      - DRAMATIQ_BROKER_URL=$LOCALHOST_DRAMATIQ_BROKER_URL
     command: develop
     depends_on:
       - pg
@@ -43,7 +42,6 @@ services:
       - PYTHONDONTWRITEBYTECODE=1
       - PYTHONBREAKPOINT=web_pdb.set_trace
       - SQLALCHEMY_DATABASE_URI=postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@pg:5432/${POSTGRES_DB}
-      - DRAMATIQ_BROKER_URL=$LOCALHOST_DRAMATIQ_BROKER_URL
     command: tasks --watch '/usr/src/app/{{cookiecutter.app_slug}}' tasks:broker
     depends_on:
       - pg
