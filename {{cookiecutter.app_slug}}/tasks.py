@@ -1,7 +1,14 @@
 #!/usr/bin/env python
 
-from {{cookiecutter.app_slug}} import create_app
-from {{cookiecutter.app_slug}}.extensions import broker
+try:
+    from dotenv import load_dotenv
+except ImportError:
+    pass
+else:
+    load_dotenv()
+
+from {{cookiecutter.app_slug}} import create_app  # noqa
+from {{cookiecutter.app_slug}}.extensions import broker  # noqa
 import {{cookiecutter.app_slug}}.actors  # noqa
 
 app = create_app()
