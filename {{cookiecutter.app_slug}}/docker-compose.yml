@@ -24,12 +24,8 @@ services:
     environment:
       - PYTHONDONTWRITEBYTECODE=1
       - PYTHONBREAKPOINT=web_pdb.set_trace
-      - APP_LOGGING_CONFIG_FILE=
       - SQLALCHEMY_DATABASE_URI=postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@pg:5432/${POSTGRES_DB}
       - DRAMATIQ_BROKER_URL=$LOCALHOST_DRAMATIQ_BROKER_URL
-      - RABBITMQ_EVENT_EXCHANGE=$RABBITMQ_EVENT_EXCHANGE
-      - SECRET_KEY=dummy-secret
-      - PORT=$PORT
     command: develop
     depends_on:
       - pg
@@ -46,13 +42,8 @@ services:
     environment:
       - PYTHONDONTWRITEBYTECODE=1
       - PYTHONBREAKPOINT=web_pdb.set_trace
-      - APP_LOGGING_CONFIG_FILE=
       - SQLALCHEMY_DATABASE_URI=postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@pg:5432/${POSTGRES_DB}
       - DRAMATIQ_BROKER_URL=$LOCALHOST_DRAMATIQ_BROKER_URL
-      - DRAMATIQ_PROCESSES=1
-      - DRAMATIQ_THREADS=1
-      - DRAMATIQ_GREENLETS=1
-      - RABBITMQ_EVENT_EXCHANGE=$RABBITMQ_EVENT_EXCHANGE
     command: tasks --watch '/usr/src/app/{{cookiecutter.app_slug}}' tasks:broker
     depends_on:
       - pg
