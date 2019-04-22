@@ -17,10 +17,7 @@ case $1 in
         exec flask run --host=0.0.0.0 --port $PORT "$@"
         ;;
     serve)
-        exec gunicorn \
-             --config "$APP_ROOT_DIR/gunicorn.conf" \
-             --log-config "$APP_LOGGING_CONFIG_FILE" \
-             -b :$PORT wsgi:app
+        exec gunicorn --config "$APP_ROOT_DIR/gunicorn.conf" -b :$PORT wsgi:app
         ;;
     db)
         shift;

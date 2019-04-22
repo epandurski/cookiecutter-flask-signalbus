@@ -1,13 +1,20 @@
 __version__ = '0.1.0'
 
 import os
+import os.path
 import logging
 import logging.config
 from flask_env import MetaFlaskEnv
 
-logging_conffile = os.environ.get('APP_LOGGING_CONFIG_FILE')
-if logging_conffile:
-    logging.config.fileConfig(logging_conffile)
+# Configure app logging. If the value of "$APP_LOGGING_CONFIG_FILE" is
+# a relative path, the directory of this (__init__.py) file will be
+# used as a current directory.
+config_filename = os.environ.get('APP_LOGGING_CONFIG_FILE')
+if config_filename:
+    if not os.path.isabs(config_filename):
+        current_dir = os.path.dirname(__file__)
+        config_filename = os.path.join(current_dir, config_filename)
+    logging.config.fileConfig(config_filename, disable_existing_loggers=False)
 else:
     logging.basicConfig(level=logging.WARNING)
 
