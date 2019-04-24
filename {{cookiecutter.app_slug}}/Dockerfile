@@ -12,6 +12,9 @@ ENV POETRY_VERSION="0.12.12"
 ENV USE_PIP_VERSION="19.0.3"
 ENV USE_GUNICORN_VERSION="19.9.0"
 
+# Gunicorn's default number of workers.
+ENV WEB_CONCURRENCY=2
+
 RUN apk add --no-cache \
     curl \
     gcc \
