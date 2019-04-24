@@ -15,7 +15,6 @@ flask-migrate = "^2.4"
 flask_signalbus = "^0.4.0"
 flask_melodramatiq = "^0.3.4"
 psycopg2-binary = "^2.8"
-mysql-connector = "^2.2"
 dramatiq = {version = "^1.5",extras = ["rabbitmq", "watch"]}
 
 [tool.poetry.dev-dependencies]
