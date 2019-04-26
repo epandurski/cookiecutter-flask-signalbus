@@ -14,7 +14,7 @@ case $1 in
     develop)
         shift;
         flask signalbus flush -w 0
-        exec flask run --host=0.0.0.0 --port $PORT "$@"
+        exec flask run --host=0.0.0.0 --port $PORT --without-threads "$@"
         ;;
     serve)
         exec gunicorn --config "$APP_ROOT_DIR/gunicorn.conf" -b :$PORT wsgi:app
