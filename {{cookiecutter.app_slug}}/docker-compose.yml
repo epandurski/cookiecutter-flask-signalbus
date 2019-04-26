@@ -28,6 +28,8 @@ services:
     command: develop
     depends_on:
       - pg
+    stdin_open: true
+    tty: true
 
   tasks:
     build:
@@ -45,3 +47,5 @@ services:
     command: tasks --watch '/usr/src/app/{{cookiecutter.app_slug}}' tasks:broker
     depends_on:
       - pg
+    stdin_open: true
+    tty: true
