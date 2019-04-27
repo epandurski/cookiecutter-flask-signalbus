@@ -13,4 +13,5 @@ To create an `.env` file with reasonable defalut values, run this command::
 
 Then install a RabbitMQ server on `localhost` and either create a new
 user, or allow the existing `guest` user to connect from other hosts
-(by default, only local connections are allowed for `guest`).
+(by default, only local connections are allowed for `guest`). You may
+need to alter the firewall rules your host as well.
