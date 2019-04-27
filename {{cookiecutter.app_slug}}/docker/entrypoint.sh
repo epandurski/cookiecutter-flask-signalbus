@@ -1,14 +1,16 @@
 #!/bin/sh
 set -e
 
-# We should allow the container to work with RabbitMQ servers
-# installed on the host. To do this, we find the IP address of the
-# host, and then in "$DRAMATIQ_BROKER_URL" we substitute "localhost"
-# with that IP address.
-if [[ -n "$DRAMATIQ_BROKER_URL" ]]; then
-    host_ip=$(ip route show | awk '/default/ {print $3}')
-    export DRAMATIQ_BROKER_URL=$(echo "$DRAMATIQ_BROKER_URL" | sed -E "s/(.*@|.*\/\/)localhost\b/\1$host_ip/")
-fi
+# During development, we should be able to connect to services
+# installed on "localhost" from the container. To allow this, we find
+# the IP address of the docker host, and then in the value of each
+# variable which name ends with "_URL" we substitute "localhost" with
+# that IP address.
+host_ip=$(ip route show | awk '/default/ {print $3}')
+for envvar_name in $(env | grep -oE '^[A-Z_]+_URL\b'); do
+    eval envvar_value=\$$envvar_name;
+    eval export $envvar_name=$(echo "$envvar_value" | sed -E "s/(.*@|.*\/\/)localhost\b/\1$host_ip/")
+done
 
 case $1 in
     develop)
