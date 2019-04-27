@@ -8,13 +8,33 @@ set -e
 # that IP address.
 host_ip=$(ip route show | awk '/default/ {print $3}')
 for envvar_name in $(env | grep -oE '^[A-Z_]+_URL\b'); do
-    eval envvar_value=\$$envvar_name;
+    eval envvar_value=\$$envvar_name
     eval export $envvar_name=$(echo "$envvar_value" | sed -E "s/(.*@|.*\/\/)localhost\b/\1$host_ip/")
 done
+
+# This function tries to upgrade the database schema with exponential
+# backoff. This is necessary during development, because the database
+# might not be running yet when this script executes.
+flask_db_upgrade() {
+    local retry_after=1
+    local time_limit=$(($retry_after << 5))
+    local error_file="$APP_ROOT_DIR/flask-db-upgrade.error"
+    echo 'Running database schema upgrade ...'
+    while [[ $retry_after -lt $time_limit ]]; do
+        if flask db upgrade 2>$error_file; then
+            return 0
+        fi
+        sleep $retry_after
+        retry_after=$((2 * retry_after))
+    done
+    cat "$error_file"
+    return 1
+}
 
 case $1 in
     develop)
         shift;
+        flask_db_upgrade
         flask signalbus flush -w 0
         exec flask run --host=0.0.0.0 --port $PORT --without-threads "$@"
         ;;
