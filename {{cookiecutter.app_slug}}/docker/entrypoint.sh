@@ -33,7 +33,7 @@ flask_db_upgrade() {
 
 case $1 in
     develop)
-        shift;
+        shift
         flask_db_upgrade
         flask signalbus flush -w 0
         exec flask run --host=0.0.0.0 --port $PORT --without-threads "$@"
@@ -42,22 +42,22 @@ case $1 in
         exec gunicorn --config "$APP_ROOT_DIR/gunicorn.conf" -b :$PORT wsgi:app
         ;;
     db)
-        shift;
+        shift
         exec flask db "$@"
         ;;
     signalbus)
-        shift;
+        shift
         exec flask signalbus "$@"
         ;;
     supervisord)
         exec supervisord -c "$APP_ROOT_DIR/supervisord.conf"
         ;;
     tasks)
-        shift;
+        shift
         exec dramatiq --processes ${DRAMATIQ_PROCESSES-4} --threads ${DRAMATIQ_THREADS-8} "$@"
         ;;
     tasks-gevent)
-        shift;
+        shift
         exec dramatiq-gevent --processes ${DRAMATIQ_PROCESSES-4} --threads ${DRAMATIQ_GREENLETS-8} "$@"
         ;;
     *)
