@@ -33,7 +33,7 @@ How to setup a development environment
 
 2. Create a new `Python`_ virtual environment and activate it.
 
-3. Run this command::
+3. To install dependencies, run this command::
 
      $ poetry install
 
