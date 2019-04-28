@@ -15,7 +15,7 @@ done
 # This function tries to upgrade the database schema with exponential
 # backoff. This is necessary during development, because the database
 # might not be running yet when this script executes.
-flask_db_upgrade() {
+perform_db_upgrade() {
     local retry_after=1
     local time_limit=$(($retry_after << 5))
     local error_file="$APP_ROOT_DIR/flask-db-upgrade.error"
@@ -31,19 +31,27 @@ flask_db_upgrade() {
     return 1
 }
 
+# This function is intended to perform additional one-time
+# initializations. Make sure that it is idempotent.
+# (https://en.wikipedia.org/wiki/Idempotence)
+perform_initializations() {
+    return 0
+}
+
 case $1 in
     develop)
         shift
-        flask_db_upgrade
+        perform_db_upgrade
+        perform_initializations
         flask signalbus flush -w 0
         exec flask run --host=0.0.0.0 --port $PORT --without-threads "$@"
         ;;
+    configure)
+        flask db upgrade
+        perform_initializations
+        ;;
     serve)
         exec gunicorn --config "$APP_ROOT_DIR/gunicorn.conf" -b :$PORT wsgi:app
-        ;;
-    db)
-        shift
-        exec flask db "$@"
         ;;
     signalbus)
         shift
