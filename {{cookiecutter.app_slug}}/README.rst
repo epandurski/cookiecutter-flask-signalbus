@@ -15,7 +15,7 @@ How to run it
      $ cp env.development .env
 
 3. Install a `RabbitMQ`_ server on your computer and either create a
-   new RabbitMQ user, or allow the existing `guest` user to connect
+   new RabbitMQ user, or allow the existing "guest" user to connect
    from other hosts (by default, only local connections are allowed
    for "guest"). You may need to alter the firewall rules on your
    computer as well, to allow docker containers to connect to the
