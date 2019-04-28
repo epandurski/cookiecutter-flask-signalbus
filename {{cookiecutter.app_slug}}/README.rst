@@ -9,17 +9,16 @@ How to run it
 
 1. Install `Docker`_ and `Docker Compose`_.
 
-2. To create an *.env* file with reasonable defalut values, run this
+2. Install `RabbitMQ`_ and either create a new RabbitMQ user, or allow
+   the existing "guest" user to connect from other hosts (by default,
+   only local connections are allowed for "guest"). You may need to
+   alter the firewall rules on your computer as well, to allow docker
+   containers to connect to the docker host.
+
+3. To create an *.env* file with reasonable defalut values, run this
    command::
 
      $ cp env.development .env
-
-3. Install a `RabbitMQ`_ server on your computer and either create a
-   new RabbitMQ user, or allow the existing "guest" user to connect
-   from other hosts (by default, only local connections are allowed
-   for "guest"). You may need to alter the firewall rules on your
-   computer as well, to allow docker containers to connect to the
-   docker host.
 
 4. To start the containers, run this command::
 
