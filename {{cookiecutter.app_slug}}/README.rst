@@ -4,22 +4,45 @@
 {{cookiecutter.description}}
 
 
-Setting up a development environment
-------------------------------------
+How to run it
+-------------
 
-1. Install `docker` and `docker-compose`.
+1. Install `Docker`_ and `Docker Compose`_.
 
-2. To create an `.env` file with reasonable defalut values, run this command::
+2. To create an *.env* file with reasonable defalut values, run this
+   command::
 
      $ cp env.development .env
 
-3. Install a `RabbitMQ` server on your computer and either create a
+3. Install a `RabbitMQ`_ server on your computer and either create a
    new RabbitMQ user, or allow the existing `guest` user to connect
    from other hosts (by default, only local connections are allowed
-   for `guest`). You may need to alter the firewall rules on your
+   for "guest"). You may need to alter the firewall rules on your
    computer as well, to allow docker containers to connect to the
    docker host.
 
 4. To start the containers, run this command::
 
      $ docker-compose up --build -d
+
+
+How to setup a development environment
+--------------------------------------
+
+1. Install `Poetry`_.
+
+2. Create a new `Python`_ virtual environment and activate it.
+
+3. Run this command::
+
+     $ poetry install
+
+4. You can use ``flask run`` to run a local Web server, or ``dramatiq
+   tasks:broker`` to spawn local task workers.
+
+
+.. _Docker: https://docs.docker.com/
+.. _Docker Compose: https://docs.docker.com/compose/
+.. _RabbitMQ: https://www.rabbitmq.com/
+.. _Poetry: https://poetry.eustace.io/docs/
+.. _Python: https://docs.python.org/
