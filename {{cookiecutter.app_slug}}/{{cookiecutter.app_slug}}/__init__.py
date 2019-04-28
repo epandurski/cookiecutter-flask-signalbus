@@ -30,7 +30,6 @@ class Configuration(metaclass=MetaFlaskEnv):
     SQLALCHEMY_ECHO = False
     DRAMATIQ_BROKER_CLASS = 'RabbitmqBroker'
     DRAMATIQ_BROKER_URL = 'amqp://guest:guest@localhost:5672'
-    RABBITMQ_EVENT_EXCHANGE = ''
 
 
 def create_app(config_dict={}):
