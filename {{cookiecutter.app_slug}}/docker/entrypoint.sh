@@ -53,10 +53,6 @@ case $1 in
     serve)
         exec gunicorn --config "$APP_ROOT_DIR/gunicorn.conf" -b :$PORT wsgi:app
         ;;
-    signalbus)
-        shift
-        exec flask signalbus "$@"
-        ;;
     supervisord)
         exec supervisord -c "$APP_ROOT_DIR/supervisord.conf"
         ;;
