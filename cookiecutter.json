@@ -5,6 +5,7 @@
   "version": "0.1.0",
   "author_name": "Evgeni Pandurski",
   "author_email": "epandurski@gmail.com",
+  "add_emacs_files": "n",
   "license": ["", "Unlicense", "MIT", "LGPL-3.0", "GPL-3.0"],
   "_copy_without_render": [
     "*.html"
