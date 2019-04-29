@@ -8,8 +8,8 @@ ENV APP_LOGGING_CONFIG_FILE=/usr/src/app/{{cookiecutter.app_slug}}/logging.conf
 ENV PYTHONPATH=/usr/src/app
 ENV FLASK_APP=$FLASK_APP
 
-ENV POETRY_VERSION="0.12.12"
-ENV USE_PIP_VERSION="19.0.3"
+ENV POETRY_VERSION="0.12.14"
+ENV USE_PIP_VERSION="19.1"
 ENV USE_GUNICORN_VERSION="19.9.0"
 
 # Gunicorn's default number of workers.
