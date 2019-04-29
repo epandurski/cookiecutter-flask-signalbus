@@ -1,24 +1,30 @@
 # Cookiecutter Flask-SignalBus template
 
-Dockerized Flask-SignalBus project for [Cookiecutter](https://github.com/audreyr/cookiecutter).
+Dockerized [Flask-SignalBus](https://flask-signalbus.readthedocs.io/)
+project for [Cookiecutter](https://github.com/audreyr/cookiecutter).
 
 ## Quick Start
 
-Install Cookiecutter globally:
+1. Install Cookiecutter globally:
 
-```sh
-$ pip install cookiecutter
-```
+    ```sh
+    $ pip install cookiecutter
+    ```
 
-Generate the boilerplate:
+2. Generate the boilerplate:
 
-```sh
-$ cookiecutter https://github.com/epandurski/cookiecutter-flask-signalbus.git
-```
+    ```sh
+    $ cookiecutter https://github.com/epandurski/cookiecutter-flask-signalbus.git
+    ```
 
-Then:
+3. Find the `README.rst` file in the newly generated directory, and
+   follow the instructions there.
 
-```sh
-$ poetry lock
-$ flask db init
-```
+    **NOTE:** You will get an error if you try to start the Docker
+    containers. This is because few key files are still missing.
+
+4. Create a new `migrations/` directory by running this command:
+
+    ```sh
+    $ flask db init
+    ```
