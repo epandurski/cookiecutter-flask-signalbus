@@ -1,44 +1,49 @@
-FROM python:3.7-alpine
+FROM python:3.7.3-alpine3.9 AS compile-image
 WORKDIR /usr/src/app
 
-ARG FLASK_APP={{cookiecutter.app_slug}}
-
-ENV APP_ROOT_DIR=/usr/src/app
-ENV APP_LOGGING_CONFIG_FILE=/usr/src/app/{{cookiecutter.app_slug}}/logging.conf
-ENV PYTHONPATH=/usr/src/app
-ENV FLASK_APP=$FLASK_APP
-
+ENV PIP_VERSION="19.1"
 ENV POETRY_VERSION="0.12.14"
-ENV USE_PIP_VERSION="19.1"
-ENV USE_GUNICORN_VERSION="19.9.0"
-
-# Gunicorn's default number of workers.
-ENV WEB_CONCURRENCY=2
-
 RUN apk add --no-cache \
     curl \
     gcc \
-    musl-dev \
-    python3-dev \
-    postgresql-dev \
     git \
-    supervisor \
-  && pip install --upgrade pip==$USE_PIP_VERSION \
-  && pip install gunicorn==$USE_GUNICORN_VERSION \
+    musl-dev \
+    libffi-dev \
+    postgresql-dev \
+  && pip install --upgrade pip==$PIP_VERSION \
   && curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python \
-  && ln -s "$HOME/.poetry/bin/poetry" "/usr/local/bin"
+  && ln -s "$HOME/.poetry/bin/poetry" "/usr/local/bin" \
+  && python -m venv /opt/venv
 
+ENV PATH="/opt/venv/bin:$PATH"
 COPY pyproject.toml poetry.lock ./
 RUN poetry config settings.virtualenvs.create false \
   && poetry install --no-dev --no-interaction
 
-COPY docker/ wsgi.py tasks.py ./
-COPY $FLASK_APP/ $FLASK_APP/
-RUN python -m compileall .
-COPY migrations/ migrations/
 
-# Ensure no .env file is present.
+# This is the second and final image. Starting from a clean alpine
+# image, it copies over the previously created virtual environment.
+FROM python:3.7.3-alpine3.9 AS runtime-image
+WORKDIR /usr/src/app
+ARG FLASK_APP={{cookiecutter.app_slug}}
+
+RUN apk add --no-cache \
+    libffi \
+    postgresql-libs \
+    supervisor
+
+ENV FLASK_APP=$FLASK_APP
+ENV APP_ROOT_DIR=/usr/src/app
+ENV APP_LOGGING_CONFIG_FILE="$APP_ROOT_DIR/$FLASK_APP/logging.conf"
+ENV PYTHONPATH="$APP_ROOT_DIR"
+ENV PATH="/opt/venv/bin:$PATH"
+
+COPY --from=compile-image /opt/venv /opt/venv
+COPY docker/ wsgi.py tasks.py ./
 RUN rm -f .env
+COPY migrations/ migrations/
+COPY $FLASK_APP/ $FLASK_APP/
+RUN python -m compileall -x '^\./migrations/' .
 
 ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
 CMD ["serve"]
