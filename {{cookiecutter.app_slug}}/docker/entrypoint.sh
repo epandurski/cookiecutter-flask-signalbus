@@ -33,6 +33,11 @@ perform_db_upgrade() {
     return 1
 }
 
+setup_rabbitmq_bindings() {
+    flask {{cookiecutter.app_slug}} subscribe {{cookiecutter.app_slug}}
+    return 0
+}
+
 # This function is intended to perform additional one-time
 # initializations. Make sure that it is idempotent.
 # (https://en.wikipedia.org/wiki/Idempotence)
@@ -44,6 +49,7 @@ case $1 in
     develop-run-flask)
         shift
         perform_db_upgrade
+        setup_rabbitmq_bindings
         perform_initializations
         flask signalbus flush -w 0
         exec flask run --host=0.0.0.0 --port $PORT --without-threads "$@"
@@ -51,6 +57,7 @@ case $1 in
     develop-run-tasks)
         shift
         perform_db_upgrade
+        setup_rabbitmq_bindings
         perform_initializations
         exec dramatiq --processes ${DRAMATIQ_PROCESSES-4} --threads ${DRAMATIQ_THREADS-8} "$@"
         ;;
@@ -61,6 +68,7 @@ case $1 in
         ;;
     configure)
         flask db upgrade
+        setup_rabbitmq_bindings
         perform_initializations
         ;;
     serve)
