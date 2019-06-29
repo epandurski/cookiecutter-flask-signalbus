@@ -2,7 +2,7 @@ import click
 from flask.cli import with_appcontext
 
 
-@click.group()
+@click.group('{{cookiecutter.app_slug}}')
 def {{cookiecutter.app_slug}}():
     """Perform {{cookiecutter.app_name}} specific operations."""
 
