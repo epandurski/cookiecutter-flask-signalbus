@@ -10,7 +10,7 @@ def {{cookiecutter.app_slug}}():
 @{{cookiecutter.app_slug}}.command()
 @with_appcontext
 @click.argument('queue_name')
-def subscribe(queue_name):
+def subscribe(queue_name):  # pragma: no cover
     """Subscribe a queue for the observed events and messages.
 
     QUEUE_NAME specifies the name of the queue.
